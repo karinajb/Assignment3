@@ -1,11 +1,130 @@
-
 <html>
   <head>
-   
+   <link href="style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   </head>
   
-  <body>
-  </body>
+  <body style="background-image: url(Vines.jpg);">
   
+    <div class="navbartop">
+	 	<div class="container" onclick="menufunction(this)">
+  			<div class="bar1"></div>
+  			<div class="bar2"></div>
+  			<div class="bar3"></div>
+		</div>
+		<div id="navContents">
+		<div v-if="clicked">
+			<ul>
+				<li><a href="Index.html">Home</a></li>
+				<li><a href="restaurant.html">Restaurant</a></li>
+				<li><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">Menu</a></li>
+				<li><a href="bookings.html">Bookings</a></li>
+				<li><a href="cellardoor.html">Cellar Door</a></li>
+				<li><a href="wines.html">Wines</a></li>
+				<li><a href="events.html">Events</a></li>
+				<li><a href="order.html">Order</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			</div>
+		</div>
+		
+</div>  
+<script>function menufunction(x) {
+ 	 x.classList.toggle("change");
+ 	 menutoggle.clicked = !menutoggle.clicked;
+	}
+</script>
+
+<script>
+	var menutoggle = new Vue({
+	el:'#navContents',
+	data: {
+		clicked: false
+	}
+	})
+</script>
+
+<img src="nplogogrey.png" alt="Nicol's Paddock" width=75%>
+<br>
+<h1>Contact Us</h1>  
+
+<div class="contactForm">
+<div v-if="submitted == false">
+      <form id="contactForm">
+      <label for="name">Name:</label>
+    <input id="name" v-model.trim="name" type="text" placeholder="Your Name">
+      <br>
+      
+      <label for="phoneno">Contact Number: </label>
+      <input id="phoneno" v-model="phoneno" type="text" placeholder="Your Number">
+      <br>
+      <label for="email">Email: </label>
+      <input id="email" v-model="email" type="text" placeholder="Enter your email">
+      <br>
+      <label for="queryTxt"> </label>
+      <input id="queryTxt" v-model="queryTxt" type="text" placeholder="How can we help">
+      <br>
+      <br>
+      <br>
+
+
+
+      <button type="button" v-on:click="submitQuery">Submit</button>
+      </form>
+</div>
+<div v-else>
+Thankyou for submitting your query {{ name }} .
+</div>
+</div>
+
+<div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmEeLM9-A24eFrV6NldUfbvbA5sIKlfwI&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
+
+<script>
+var contactFormapp = new Vue({
+    	el:".contactForm",
+    	data:{
+    		submitted: false,
+    		name: '',
+    		phoneno: '',
+    		email: '',
+    		queryTxt: '',
+    	},
+    	methods: {
+          submitQuery: function() {
+          contactFormapp.submitted=true;
+          }
+        }
+    })
+</script>
+
+<script>
+      // Initialize and add the map
+      function initMap() {
+        // The location of winery
+        const winery = { lat: -38.2064419, lng: 144.2961895 };
+        // The map, centered at winery
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 4,
+          center: winery,
+        });
+        // The marker, positioned at winery
+        const marker = new google.maps.Marker({
+          position: winery,
+          map: map,
+        });
+      }
+    </script>
+
+
+
+
+
+
+</body>
 </html>
