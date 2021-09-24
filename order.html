@@ -1,11 +1,310 @@
 
 <html>
   <head>
-   
+   <link href="style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Nicols Paddock - Store</title>
   </head>
   
-  <body>
+  <body style="background-image: url(images/Vines.jpg);">
+  <!-- Navigation Bar using CSS to animate hamburger menu icon and V-if to show and hide the navigation links-->
+  <div class="navbartop">
+	 	<div class="container" onclick="menufunction(this)">
+  			<div class="bar1"></div>
+  			<div class="bar2"></div>
+  			<div class="bar3"></div>
+		</div>
+		<div id="navContents">
+		<div v-if="clicked">
+			<ul>
+				<li><a href="Index.html">Home</a></li>
+				<li><a href="restaurant.html">Restaurant</a></li>
+				<li><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">Menu</a></li>
+				<li><a href="bookings.html">Bookings</a></li>
+				<li><a href="cellardoor.html">Cellar Door</a></li>
+				<li><a href="wines.html">Wines</a></li>
+				<li><a href="events.html">Events</a></li>
+				<li><a href="order.html">Order</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			</div>
+		</div>
+		
+</div>  
+
+<script>
+//Java Function to toggle state of hamburger icon
+	function menufunction(x) {
+ 	 x.classList.toggle("change");
+ 	 menutoggle.clicked = !menutoggle.clicked;
+	}
+</script>
+
+<script>
+//Vue App to store a boolean value of the click state, which the V-if above uses
+	var menutoggle = new Vue({
+	el:'#navContents',
+	data: {
+		clicked: false
+	}
+	})
+</script>
+
+<!--Online store login form. Use v-model to bind input form to Vue variables.-->
+  <div id="storelogin">
+      <form id="loginform">
+      <img src="images/nplogogrey.png" alt="Nicol's Paddock" width=75%>
+      <h1>Login to our online store</h1>
+      <label for="username">Username:</label>
+    <input id="username" v-model.trim="username" type="text" placeholder="Enter username">
+      <br>
+      
+      <label for="password">Password: </label>
+      <input id="password" v-model="password" type="password" placeholder="Enter password">
+      <br>
+      <label for="email">Email: </label>
+      <input id="email" v-model="email" type="text" placeholder="Enter your email">
+      <br>
+      <button type="button" v-on:click="checkInput">Login</button>
+      </form>
+    </div>
+    
+    <script>
+    //New Vue app to handle user login and events.
+      var form = new Vue({
+        el:"#loginform",
+        //Variables to store username, password and email.
+        data:{
+          username:'',
+          password:'',
+          email:'',
+        },
+        //Custom event to check user has entered details in login form and only proceed if so.
+        methods: {
+          checkInput: function() {
+            var str ='';
+            if (this.username){
+              str = str + "name:" + this.username;
+            }
+            if (this.password) {
+              str = str + " password: " + this.password;
+            }
+            if (this.email) {
+              str = str + " email: " + this.email;
+            }
+            if (str) {
+              // alert(str)
+              storeViewerapp.loggedIn = true
+            } else {
+              alert("Please enter your required details")
+            }
+          }
+        }
+        })          
+      
+    </script>
+    <!--Checkboxes for user to accept terms and conditions, subscribe to mailing list and verify age. Use v-model to bind to Vue variables.-->
+    <div id="checkboxes">
+      <input type="checkbox" id="18" value="Iam18" v-model="userconditions" />
+      <label for="Iam18">I confirm that I am 18 years or older</label><br>
+      <input type="checkbox" id="terms" value="terms" v-model="userconditions" />
+      <label for="terms">I agree to the terms and conditions</label><br>
+      <input type="checkbox" id="maillist" value="maillist" v-model="userconditions" />
+      <label for="maillist">Please add me to your mailing list for new wine releases</label><br>
+      <br>
+      <span>Agreed to: {{ userconditions }}</span>
+      <br>
+      <br>
+      </div>
+      <!--The main store view which is only visible if the user has completed the userform from above.-->
+      <div id="StoreViewer">
+      <div v-if="loggedIn">
+      <!--Provide a dropdown box which gets its values from a Vue variable which will allow the user to filter the store based on categories.-->
+      		Filter wine available by type:
+      		<select v-model="filterby">
+        	<option v-for="filtercategory in filterlist"
+                v-bind:value="filtercategory.value">{{filtercategory.text}}
+        	</option>
+      		</select>
+    		<span>Showing category: {{ filterby }}
+      		</span>
+<br><br>
+<h2>Items currently in cart: {{itemsInCart}}</h2>
+<br><br>
+      	<!-- Div to render red wines when filter categories set 
+      	Use v-if to only show div if filter categories are met. Use v-bind to add a custom hover message from a Vue variable.
+      	Use v-if to show out of stock when stock level is zero and bind the disabled property of add to cart button to Vue boolean.-->
+      	<div v-if="filterby == 'R' || filterby == 'A' || filterby == 'C'" >
+      		<h2 v-bind:title="shirazMessage">2020 Nicols Paddock Shiraz</h2>
+      		<img src="images/winebottle.jpg" style="width:120px;height:160px;" title="Shiraz!"><br>
+      		<button :disabled="!stock[0].available" type="button" v-on:click="addToCart('Shiraz')">Add To Cart</button>
+      		<span v-if="!stock[0].available">--OUT OF STOCK--</span>
+      		
+      		<br>
+      		<h2 v-bind:title="pinotMessage">2020 Nicols Paddock Pinot Noir</h2>
+      		<img src="images/winebottle.jpg" style="width:120px;height:160px;" title="Pinot!"><br>
+      		<button :disabled="!stock[1].available" type="button" v-on:click="addToCart('Pinot')">Add To Cart</button>
+      		<span v-if="!stock[1].available">--OUT OF STOCK--</span>
+      	</div>
+      	
+      	
+      	<!-- Div to render white wines when filter categories set
+      	Use v-if to only show div if filter categories are met. Use v-bind to add a custom hover message from a Vue variable.
+      	Use v-if to show out of stock when stock level is zero and bind the disabled property of add to cart button to Vue boolean -->
+       	<div v-if="filterby == 'W' || filterby == 'A' || filterby == 'C'" >
+      		<h2 v-bind:title="chardMessage">2020 Nicols Paddock Chardonnay</h2>
+      		<img src="images/winebottle.jpg" style="width:120px;height:160px;" title="Chardonnay!"><br>
+      		<button :disabled="!stock[3].available" type="button" v-on:click="addToCart('Chard')">Add To Cart</button>
+      		<span v-if="!stock[3].available">--OUT OF STOCK--</span>
+      		
+      	</div>     	
+      	
+      	<!-- Div to render rose wines when filter categories set 
+      	Use v-if to only show div if filter categories are met. Use v-bind to add a custom hover message from a Vue variable.
+      	Use v-if to show out of stock when stock level is zero and bind the disabled property of add to cart button to Vue boolean-->
+       	<div v-if="filterby == 'P' || filterby == 'A' || filterby == 'C'" >
+      		<h2 v-bind:title="roseMessage">2020 Nicols Paddock Rose</h2>
+      		<img src="images/winebottle.jpg" style="width:120px;height:160px;" title="Rose!"><br>
+      		<button :disabled="!stock[2].available" type="button" v-on:click="addToCart('Rose')">Add To Cart</button>
+      		<span v-if="!stock[2].available">--OUT OF STOCK--</span>
+      		
+      	</div>        	
+      	
+      	<!-- Div to render items when no category or all is set. 
+      	Use v-if to only show div if filter categories are met. Use v-bind to add a custom hover message from a Vue variable.
+      	Use v-if to show out of stock when stock level is zero and bind the disabled property of add to cart button to Vue boolean-->
+      	<div v-if="filterby == 'A' || filterby == 'C'" >
+      		<h2 v-bind:title="hhMessage">Heat at home Dinner for 2</h2>
+      		<img src="images/Nicols Paddock11032021_167.jpg" style="width:160px;height:120px;" title="Dinner!"><br>
+      		<button :disabled="!stock[4].available" type="button" v-on:click="addToCart('hh')">Add To Cart</button>
+      		<span v-if="!stock[4].available">--OUT OF STOCK--</span>
+      		
+      	</div> 
+      	
+      	
+    	</div>
+    </div>
+    
+    <script>
+    //Vue app for handling checkboxes
+    var app = new Vue({
+      el: "#checkboxes",
+      data: {
+        userconditions:[],
+ 
+      }
+    })   
+    
+    </script>
+    
+
+    <script>
+    //setup new app to handle the online store
+    	var storeViewerapp = new Vue({
+    	el:"#storeViewer",
+    	//Setup data variables for loggedin state as boolean, filter list for categories to filter, a counter for items in cart, an array of stock (including item name,
+    	//stock level and availability.)And a variable for the hover message for each item. 
+    	data:{
+    		loggedIn: false,
+    		filterlist: [
+          		{ text: 'Choose a wine variety', value: 'C'},
+          		{ text: 'All', value: 'A'},
+          		{ text: 'Red', value: 'R' },
+          		{ text: 'White', value: 'W' },
+          		{ text: 'Rose', value: 'P' }
+          		],
+        	filterby:'C',
+        	itemsInCart: 0,
+        	stock: [
+        		{ wine: 'Shiraz', id: 0, stock: 2, available: true},
+        		{ wine: 'Pinot', id: 1, stock: 1, available: true},
+        		{ wine: 'Rose', id: 2, stock: 99, available: true},
+        		{ wine: 'Chard', id: 3, stock: 0, available: false},
+        		{ wine: 'HH', id: 4, stock: 25, available: true},
+        	],
+        	shirazMessage: 'Hurry, there are only 2 bottles in stock',
+        	pinotMessage: 'Hurry, there are only 1 bottles in stock',
+        	roseMessage: 'Hurry, there are only 99 bottles in stock',
+        	chardMessage: 'Please check back next year once the grapes have had some time to grow',
+        	hhMessage: 'Hurry, we only have 25 dinners available this week!',
+    	},
+    	//Custom event handling for add to cart buttons. The addtocart function accepts a string parameter which is used to determine which item was added to cart.
+    	methods: {
+    		addToCart: function(wine) {
+    			this.itemsInCart +=1;
+    			//Run if item is shiraz
+    			if(wine=='Shiraz')
+    			{
+    			//Subtract 1 from stock level and update hover message
+    				this.stock[0].stock-=1;
+    				this.shirazMessage ='Hurry, there are only ' + this.stock[0].stock + ' bottles left in stock';
+    				//If stock level is zero, set available false and update hover message.
+    				if(this.stock[0].stock == 0)
+    				{
+    					this.stock[0].available = false;
+    					this.shirazMessage = 'Please check back next year once the grapes have had some time to grow';
+    				}
+    				//Run if item is Pinot
+    			} else if (wine=='Pinot')
+    			{
+    			//Subtract 1 from stock level and update hover message
+    				this.stock[1].stock-=1;
+    				this.pinotMessage ='Hurry, there are only ' + this.stock[1].stock + ' bottles left in stock';
+    				//If stock level is zero, set available false and update hover message.
+    				if(this.stock[1].stock == 0)
+    				{
+    					this.stock[1].available = false;
+    					this.pinotMessage = 'Please check back next year once the grapes have had some time to grow';
+    				}
+    			
+    			//Run if item is Chard
+    			} else if (wine=='Chard')
+    			{
+    			//Subtract 1 from stock level and update hover message
+    				this.stock[3].stock-=1;
+    				this.chardMessage ='Hurry, there are only ' + this.stock[3].stock + ' bottles left in stock';
+    				//If stock level is zero, set available false and update hover message.
+    				if(this.stock[3].stock == 0)
+    				{
+    					this.stock[3].available = false;
+    					this.chardMessage = 'Please check back next year once the grapes have had some time to grow';
+    				}
+    			
+    			//Run if item is Rose
+    			} else if (wine=='Rose')
+    			{
+    			//Subtract 1 from stock level and update hover message
+    				this.stock[2].stock-=1;
+    				this.roseMessage ='Hurry, there are only ' + this.stock[2].stock + ' bottles left in stock';
+    				//If stock level is zero, set available false and update hover message.
+    				if(this.stock[2].stock == 0)
+    				{
+    					this.stock[2].available = false;
+    					this.roseMessage = 'Please check back next year once the grapes have had some time to grow';
+    				}
+    			
+    			//Run if item is hh
+    			} else if (wine=='hh')
+    			{
+    			//Subtract 1 from stock level and update hover message
+    				this.stock[4].stock-=1;
+    				this.hhMessage ='Hurry, we only have ' + this.stock[4].stock + ' dinners available this week';
+    				//If stock level is zero, set available false and update hover message.
+    				if(this.stock[4].stock == 0)
+    				{
+    					this.stock[4].available = false;
+    					this.hhMessage = 'Damn, you missed out this time. Please check back next week and make sure you get in early.';
+    				}
+    			
+    			
+    			}
+    		}
+    	}
+    	})
+	</script>
+    
+    
+    
   </body>
   
 </html>
