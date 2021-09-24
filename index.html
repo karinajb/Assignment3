@@ -1,6 +1,8 @@
 <html>
 <head>
   <link href="style.css" rel="stylesheet">
+  <!---Import VueJS V2 dev--->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <title>Nicol's Paddock</title>
   
   
@@ -13,41 +15,81 @@
 
   
   
-  <!-- The video -->
+  <!-- Video background source -->
 <video autoplay muted loop id="myVideo">
-  <source src="DJI_0147.mp4" type="video/mp4">
+  <source src="images/DJI_0147.mp4" type="video/mp4">
 </video>
 
-<!-- Optional: some overlay text to describe the video -->
+<!-- The main content div -->
 <div class="content">
-  <img src="nplogo.png" alt="Nicol's Paddock" width="325" height="163">
-  <p>Nicol's Paddock</p>
-  <p>35 Waurn Ponds Drive</p>
-  <p>Waurn Ponds</p>
-  <p>Victoria 3216</p>
-  <!-- Use a button to pause/play the video with JavaScript -->
-  <button id="myBtn" onclick="myMnu()">-Menu-</button>
-  <button id="myBtn" onclick="myFunction()">Pause</button>
+  <img src="images/nplogo.png" alt="Nicol's Paddock" width=100%>
+  <br>
+  <h4><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">OUR CURRENT MENU</a></h4>
+<br>
+
+<div id="openHrs">
+Thursday: 11am - 5pm ish<br>
+Friday & Saturday: 11am - Late<br>
+Sunday: 11am - 5pm ish<br>
 </div>
+
+  <div id="addrFooter">
+	Nicol's Paddock<br>
+  	35 Waurn Ponds Drive<br>
+  	Waurn Ponds<br>
+  	Victoria 3216
+  </div>
+</div>
+  
+<!-- Navigation Bar using CSS to animate hamburger menu icon and V-if to show and hide the navigation links-->  
+<div class="navbar">
+	 	<div class="container" onclick="menufunction(this)">
+  			<div class="bar1"></div>
+  			<div class="bar2"></div>
+  			<div class="bar3"></div>
+		</div>
+		<div id="navContents">
+		<div v-if="clicked">
+			<ul>
+				<li><a href="restaurant.html">Restaurant</a></li>
+				<li><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">Menu</a></li>
+				<li><a href="bookings.html">Bookings</a></li>
+				<li><a href="cellardoor.html">Cellar Door</a></li>
+				<li><a href="wines.html">Wines</a></li>
+				<li><a href="events.html">Events</a></li>
+				<li><a href="order.html">Order</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			</div>
+		</div>
+		
+</div>  
+<script>
+//Java Function to toggle state of hamburger icon
+	function menufunction(x) {
+ 	 x.classList.toggle("change");
+ 	 menutoggle.clicked = !menutoggle.clicked;
+	}
+</script>
+
+<script>
+//Vue App to store a boolean value of the click state, which the V-if above uses
+	var menutoggle = new Vue({
+	el:'#navContents',
+	data: {
+		clicked: false
+	}
+	})
+</script>
+
+<!-- Covid update Banner -->
+<div class="updates">
+<h3>COVID-19 Update - Currently closed inline with Victorian Government Restrictions.<br>Hope to see you again soon</h3>
+</div>
+
+
   
 </body>
   
-  <script>
-// Get the video
-var video = document.getElementById("myVideo");
-
-// Get the button
-var btn = document.getElementById("myBtn");
-
-// Pause and play the video, and change the button text
-function myFunction() {
-  if (video.paused) {
-    video.play();
-    btn.innerHTML = "Pause";
-  } else {
-    video.pause();
-    btn.innerHTML = "Play";
-  }
-}
-</script>
+ 
 </html>
