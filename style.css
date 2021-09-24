@@ -1,3 +1,19 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-family: "ASAP";
+}
+
+@font-face{
+	font-family: 'ASAP';
+	src: url('ASAP.ttf');
+}
+
+a {
+ color: white;
+}
+
 #myVideo {
   position: fixed;
   right: 0;
@@ -10,12 +26,99 @@
 .content {
   position: fixed;
   left: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.25);
   color: #f0f0f0;
   height: 100%;
-  width: 33%;
+  width: 40%;
   min-width: 300px;
+  padding-top: 150px;
+  	text-align: center;
 
+
+}
+
+.bookingForm{
+	float:left;
+}
+
+.navbar {
+  position: fixed;
+  right: 0;
+  background: rgba(255, 255, 255, 0.25);
+  color: #f0f0f0;
+  height: 100%;
+  width: 15%;
+  min-width: 200px;
+  padding-top: 150px;
+
+}
+.navbartop {
+  position: fixed;
+  right: 0;
+  background: rgba(255, 255, 255, 0.25);
+  color: #f0f0f0;
+  height: 100%;
+  width: 15%;
+  min-width: 200px;
+  padding-top: 0;
+
+
+}
+
+#navContents{
+ font-size: 20px;
+ text-align: center;
+}
+
+ul {
+list-style: none;
+}
+
+.updates {
+  position: fixed;
+  top: 30;
+  background: rgba(255, 255, 255, 1);
+  color: #f0f0f0;
+  height: 80;
+  width: 100%;
+
+
+
+}
+
+#addrFooter {
+ position: relative;
+ bottom: 0;
+ text-align: center;
+ left: 50%;
+ top:50%;
+ transform: translate(-50%, -100%);
+
+}
+
+#map {
+	position: fixed;
+	bottom: 0;
+  height: 400px;
+  /* The height is 400 pixels */
+  width: 100%;
+  /* The width is the width of the web page */
+
+}
+
+
+h3 {
+text-align: center;
+	color: #939597
+
+}
+
+h4 {
+	
+	background-color: #00573F;
+	color: #fff;
+	font-size: 25px;
+	
 }
 
 /* Style the button used to pause/play the video */
@@ -34,3 +137,46 @@
   color: black;
 }
     
+    
+.container {
+  display: inline-block;
+  cursor: pointer;
+  background: rgba(0,87,63,1);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+/* Rotate first bar */
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
+  transform: rotate(-45deg) translate(-9px, 6px) ;
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
+  transform: rotate(45deg) translate(-8px, -8px) ;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
