@@ -1,11 +1,140 @@
-
 <html>
   <head>
-   
+   <link href="style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Nicols Paddock - Our Wines</title>
   </head>
   
-  <body>
-  </body>
-  
+  <body style="background-image: url(images/Vines.jpg);">
+  <!-- Navigation Bar using CSS to animate hamburger menu icon and V-if to show and hide the navigation links-->
+  <div class="navbartop">
+	 	<div class="container" onclick="menufunction(this)">
+  			<div class="bar1"></div>
+  			<div class="bar2"></div>
+  			<div class="bar3"></div>
+		</div>
+		<div id="navContents">
+		<div v-if="clicked">
+			<ul>
+				<li><a href="Index.html">Home</a></li>
+				<li><a href="restaurant.html">Restaurant</a></li>
+				<li><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">Menu</a></li>
+				<li><a href="bookings.html">Bookings</a></li>
+				<li><a href="cellardoor.html">Cellar Door</a></li>
+				<li><a href="wines.html">Wines</a></li>
+				<li><a href="events.html">Events</a></li>
+				<li><a href="order.html">Order</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			</div>
+		</div>
+		
+</div>  
+
+<script>
+//Java Function to toggle state of hamburger icon
+	function menufunction(x) {
+ 	 x.classList.toggle("change");
+ 	 menutoggle.clicked = !menutoggle.clicked;
+	}
+</script>
+
+<script>
+//Vue App to store a boolean value of the click state, which the V-if above uses
+	var menutoggle = new Vue({
+	el:'#navContents',
+	data: {
+		clicked: false
+	}
+	})
+</script>
+
+<img src="images/nplogogrey.png" alt="Nicol's Paddock" width=75%>
+<br>
+<h1>Wines</h1>  
+<!--Render information about wines from props in Vue-->
+    <div id="wineapp">
+      <store-component
+                       v-bind:title="title"
+                       v-bind:price="price"
+                       v-bind:description="description"
+                       ></store-component>
+      <store-component
+                       v-bind:title="pinot.title"
+                       v-bind:price="pinot.price"
+                       v-bind:description="pinot.description"
+                       v-on:add-tocart="addToCart"></store-component>
+    <store-component
+                       v-bind:title="rose.title"
+                       v-bind:price="rose.price"
+                       v-bind:description="rose.description"
+                       v-on:add-tocart="addToCart"></store-component>  
+      
+      <component-local></component-local>
+    </div>
+    
+<script>
+//Setup new Vue component for setting up data type and template for wine information
+      Vue.component("store-component",{
+       //Setup props for wine data
+        props:{
+        title:String,
+          price:Number,
+          description:String,
+        },
+        //Setup template which will be used to render wine information
+        template:'<div><p><storeComponent></storeComponent></p> \
+      <h2>{{title}}</h2>{{description}} <br><br><br>\
+ \
+      </div>'
+      })
+Vue.component("StoreComponent",{
+template:"<p></p>",
+})
+     
+var componentMSG= {
+template: "<p></p>"
+}
+   
+   //Setup new Vue app to store wine information using props   
+      var wineapp = new Vue({
+      el: "#wineapp",
+        data: {
+          title:'2020 Nicols Paddock Estate Shiraz',
+          price:35,
+          description:'Produced solely from hand picked, estate grown fruit planted in 1997. Grapes were well ripened producing a rich full bodied shiraz with bold flavours of black cherry and spice. Matured for 12 months in French oak.',
+          pinot: {
+            title:'2020 Nicols Paddock Pinot Noir',
+            price:30,
+            description:'Produced from grapes grown by our friends in the Moorabool valley, this cool climate Pinot Noir has a wonderful cherry red colour, with notes of red cherry, cedar and vanilla. Matured for 12 months in French oak',
+            
+          },
+          rose: {
+            title:'2020 Nicols Paddock Rose',
+            price:30,
+            description:'Produced solely from hand picked, estate grown fruit planted in 1997. We pick fruit for our shiraz rose slightly before it has ripened fully, providing notes of fresh and candied berries. Refreshingly clean, dry and delicate finish.',
+          }
+        },
+        components:{
+        "component-local": componentMSG,
+        },
+        
+        methods: {
+        addToCart: function() {
+        alert("Added to Cart");
+        },
+        },
+      })
+      
+      
+    </script>
+
+
+<img src="images/chard.jpg" style="width:320px;height:240px;" title="Photo Credit ©Copyright 2021 Karina Jade Photography">
+
+
+
+</body>
+
+
 </html>
