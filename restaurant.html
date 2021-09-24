@@ -1,10 +1,97 @@
 <html>
   <head>
-   
+   <link href="style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Nicols Paddock - Restaurant</title>
   </head>
   
-  <body>
-  </body>
-  
+  <body style="background-image: url(images/Vines.jpg);">
+  <!-- Navigation Bar using CSS to animate hamburger menu icon and V-if to show and hide the navigation links-->
+  <div class="navbartop">
+	 	<div class="container" onclick="menufunction(this)">
+  			<div class="bar1"></div>
+  			<div class="bar2"></div>
+  			<div class="bar3"></div>
+		</div>
+		<div id="navContents">
+		<div v-if="clicked">
+			<ul>
+				<li><a href="Index.html">Home</a></li>
+				<li><a href="restaurant.html">Restaurant</a></li>
+				<li><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">Menu</a></li>
+				<li><a href="bookings.html">Bookings</a></li>
+				<li><a href="cellardoor.html">Cellar Door</a></li>
+				<li><a href="wines.html">Wines</a></li>
+				<li><a href="events.html">Events</a></li>
+				<li><a href="order.html">Order</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			</div>
+		</div>
+		
+</div>  
+
+<script>
+//Java Function to toggle state of hamburger icon
+	function menufunction(x) {
+ 	 x.classList.toggle("change");
+ 	 menutoggle.clicked = !menutoggle.clicked;
+	}
+</script>
+
+<script>
+//Vue App to store a boolean value of the click state, which the V-if above uses
+	var menutoggle = new Vue({
+	el:'#navContents',
+	data: {
+		clicked: false
+	}
+	})
+</script>
+
+<img src="images/nplogogrey.png" alt="Nicol's Paddock" width=75%>
+<br>
+<h1>Restaurant</h1> 
+
+<p>
+Our focus at Nicol's Paddock is a shared dining experience full of locally sourced & seasonal food, coupled with plenty of amazing wines from our region.
+We would love for you to join us for Lunch, Dinner or a whole day of feasting.
+
+<br>We have both indoor and outdoor seating available.
+
+</p> 
+
+<!--Provide user input box to enter their dog's name and a submit button. Use v-model to store the dog name in a variable dogname-->
+<div id="wineDog">
+      <form id="wineDogfrm">
+		<img src="images/Luna1_DSC_5054.jpg" style="width:491px;height:736px;" title="Photo Credit ©Copyright 2021 Karina Jade Photography">
+		<p>Do you have a dog?</p>
+      	<label for="dogname">Dogs Name:</label>
+    	<input id="dogname" v-model.trim="dogname" type="text" placeholder="Cute Name here">
+    	<button type="button" v-on:click="submitDog">Submit</button>
+
+</form>
+</div>
+
+<script>
+// Vue app to generate a greeting string with a dog's name and use the java script alert function to display this message
+var dogGreetingapp = new Vue({
+    	el:"#wineDog",
+    	//Set up dogname variable
+    	data:{
+    		dogname: '',
+    	},
+    	methods: {
+    	//Set up a new function called submitDog to build a greeting string and call the alert function
+          submitDog: function() {
+          	greeting = 'Please feel free to bring ' + this.dogname + ' with you - we are a dog friendly restaurant';
+          	alert(greeting);
+          }
+        }
+    })
+
+</script>
+
+
+</body>  
 </html>
