@@ -1,11 +1,145 @@
-
 <html>
   <head>
-   
+   <link href="style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Nicols Paddock - Events</title>
   </head>
   
-  <body>
-  </body>
-  
+  <body style="background-image: url(images/Vines.jpg);">
+  <!-- Navigation Bar using CSS to animate hamburger menu icon and V-if to show and hide the navigation links-->
+  <div class="navbartop">
+	 	<div class="container" onclick="menufunction(this)">
+  			<div class="bar1"></div>
+  			<div class="bar2"></div>
+  			<div class="bar3"></div>
+		</div>
+		<div id="navContents">
+		<div v-if="clicked">
+			<ul>
+				<li><a href="Index.html">Home</a></li>
+				<li><a href="restaurant.html">Restaurant</a></li>
+				<li><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">Menu</a></li>
+				<li><a href="bookings.html">Bookings</a></li>
+				<li><a href="cellardoor.html">Cellar Door</a></li>
+				<li><a href="wines.html">Wines</a></li>
+				<li><a href="events.html">Events</a></li>
+				<li><a href="order.html">Order</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			</div>
+		</div>
+		
+</div>  
+
+<script>
+//Java Function to toggle state of hamburger icon
+	function menufunction(x) {
+ 	 x.classList.toggle("change");
+ 	 menutoggle.clicked = !menutoggle.clicked;
+	}
+</script>
+
+<script>
+//Vue App to store a boolean value of the click state, which the V-if above uses
+	var menutoggle = new Vue({
+	el:'#navContents',
+	data: {
+		clicked: false
+	}
+	})
+</script>
+
+
+<img src="images/nplogogrey.png" alt="Nicol's Paddock" width=75%>
+<br>
+<h1>Events</h1> 
+
+
+
+<!--Use v-for to render items in a list. Use v-model to bind a search box to Vue.
+Display computed results list from Vue.-->
+<div id="events">
+	<div class="searchbox">
+		<input type="text" v-model="search" placeholder="Search events."/>
+	</div>
+	<div class="eventitems">
+		<ul>
+		<li v-for="event in filteredEvents">
+			<h2>{{ event.title  }}</h2>
+			-- {{ event.date }} --<br>
+			{{event.desc}}
+			<a v-bind:href="event.link" target="_blank">{{event.linktitle}}</a>
+			<br><br>
+		</li>
+</ul>
+	</div>
+	
+</div>
+
+
+
+
+<script>
+//Setup class of data called Events.
+class Event {
+	constructor(date, title, desc, link, linktitle){
+		this.date = date;
+		this.title = title;
+		this.desc = desc;
+		this.link = link;
+		this.linktitle = linktitle;
+	}
+}
+//New Vue app to store data from search box and add events to eventList
+const eventApp = new Vue ({
+	el: '#events',
+	data: {
+		search: '',
+		eventList : [
+			new Event(
+				'2/11/2021',
+				'Melbourne Cup Lunch',
+				'Who likes horse races? Not us, but you might, so come have lunch instead.'
+			),
+			new Event(
+				'25/12/2021',
+				'Christmas Lunch',
+				'Join us for a special Christmas Lunch.'
+			),
+			new Event(
+				'31/12/2021',
+				'New Years Eve Dinner',
+				'Join us to count down the minutes until the new year begins.'
+			),
+			new Event(
+				'31/1/2022',
+				'Shiraz Day',
+				'A fun day of everything Shiraz.Please note, this is a ticketed event. ',
+				'http://www.winegeelong.com.au',
+				'Tickets can be purchased form Wine Geelong'
+			),
+		]
+	},
+	//Computed method to filter items in eventList by text in search and store results in filteredEvents list which is rendered by v-for
+	computed: {
+		filteredEvents() {
+			return this.eventList.filter(event => {
+				return event.title.toLowerCase().includes(this.search.toLowerCase())
+				})
+		}
+	}
+})
+</script>
+
+
+
+
+
+<img src="images/wedding.jpg" style="width:240px;height:320px;" title="Photo Credit ©Copyright 2021 Karina Jade Photography">
+
+
+
+
+
+</body>
 </html>

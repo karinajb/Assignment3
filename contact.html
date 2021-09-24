@@ -2,11 +2,13 @@
   <head>
    <link href="style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Nicols Paddock - Contact Us</title>
   </head>
   
-  <body style="background-image: url(Vines.jpg);">
+  <body style="background-image: url(images/Vines.jpg);">
   
-    <div class="navbartop">
+<!-- Navigation Bar using CSS to animate hamburger menu icon and V-if to show and hide the navigation links-->
+  <div class="navbartop">
 	 	<div class="container" onclick="menufunction(this)">
   			<div class="bar1"></div>
   			<div class="bar2"></div>
@@ -29,13 +31,17 @@
 		</div>
 		
 </div>  
-<script>function menufunction(x) {
+
+<script>
+//Java Function to toggle state of hamburger icon
+	function menufunction(x) {
  	 x.classList.toggle("change");
  	 menutoggle.clicked = !menutoggle.clicked;
 	}
 </script>
 
 <script>
+//Vue App to store a boolean value of the click state, which the V-if above uses
 	var menutoggle = new Vue({
 	el:'#navContents',
 	data: {
@@ -44,10 +50,24 @@
 	})
 </script>
 
-<img src="nplogogrey.png" alt="Nicol's Paddock" width=75%>
+
+<img src="images/nplogogrey.png" alt="Nicol's Paddock" width=75%>
+<br><br>
+<p>Thursday: 11am - 5pm ish<br>
+Friday & Saturday: 11am - Late<br>
+Sunday: 11am - 5pm ish<br>
 <br>
+
+
+	Nicol's Paddock<br>
+  	35 Waurn Ponds Drive<br>
+  	Waurn Ponds<br>
+  	Victoria 3216
+  	</p>
+  	
 <h1>Contact Us</h1>  
 
+<!--Contact Form-->
 <div class="contactForm">
 <div v-if="submitted == false">
       <form id="contactForm">
@@ -75,11 +95,14 @@
 <div v-else>
 Thankyou for submitting your query {{ name }} .
 </div>
+
+<!--Div to store Google map API-->
+<div id="map"></div>
 </div>
 
-<div id="map"></div>
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+
+    <!-- A script to utalise the Google map API/ Plugin -->
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmEeLM9-A24eFrV6NldUfbvbA5sIKlfwI&callback=initMap&libraries=&v=weekly"
       async
@@ -97,7 +120,7 @@ var contactFormapp = new Vue({
     	},
     	methods: {
           submitQuery: function() {
-          contactFormapp.submitted=true;
+          	contactFormapp.submitted=true;
           }
         }
     })

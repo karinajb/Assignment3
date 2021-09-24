@@ -1,11 +1,130 @@
-
 <html>
   <head>
-   
+   <link href="style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Nicols Paddock - Make a Reservation</title>
   </head>
   
-  <body>
-  </body>
+  <body style="background-image: url(images/Vines.jpg);">
   
-</html>
+    <!-- Navigation Bar using CSS to animate hamburger menu icon and V-if to show and hide the navigation links-->
+  <div class="navbartop">
+	 	<div class="container" onclick="menufunction(this)">
+  			<div class="bar1"></div>
+  			<div class="bar2"></div>
+  			<div class="bar3"></div>
+		</div>
+		<div id="navContents">
+		<div v-if="clicked">
+			<ul>
+				<li><a href="Index.html">Home</a></li>
+				<li><a href="restaurant.html">Restaurant</a></li>
+				<li><a href="Nicols+Paddock+menu+29.5.pdf" target="_blank">Menu</a></li>
+				<li><a href="bookings.html">Bookings</a></li>
+				<li><a href="cellardoor.html">Cellar Door</a></li>
+				<li><a href="wines.html">Wines</a></li>
+				<li><a href="events.html">Events</a></li>
+				<li><a href="order.html">Order</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			</div>
+		</div>
+		
+</div>  
+
+<script>
+//Java Function to toggle state of hamburger icon
+	function menufunction(x) {
+ 	 x.classList.toggle("change");
+ 	 menutoggle.clicked = !menutoggle.clicked;
+	}
+</script>
+
+<script>
+//Vue App to store a boolean value of the click state, which the V-if above uses
+	var menutoggle = new Vue({
+	el:'#navContents',
+	data: {
+		clicked: false
+	}
+	})
+</script>
+
+<img src="images/nplogogrey.png" alt="Nicol's Paddock" width=75%>
+<br>
+<h1>Booking Request</h1>  
+<!--Booking request form using v-model to bind form inputs to view variables
+Use a v-if to hide the booking form once complete and show a thank you message. 
+Use a fade transition-->
+<div class="bookingForm">
+<div v-if="submitted == false">
+      <form id="bookingForm">
+      <label for="name">Name:</label>
+    <input id="name" v-model.trim="name" type="text" placeholder="Your Name">
+      <br>
+      
+      <label for="phoneno">Contact Number: </label>
+      <input id="phoneno" v-model="phoneno" type="text" placeholder="Your Number">
+      <br>
+      <label for="email">Email: </label>
+      <input id="email" v-model="email" type="text" placeholder="Enter your email">
+      <br>
+      <label for="numPpl">Number of People: </label>
+      <input id="numPpl" v-model.number="numPpl" type="number" placeholder="2">
+      <br>
+      <label for="location">Inside or outside: </label>
+      <select v-model="location" placeholder="Please select">
+      	<option disabled value="">Please select</option>
+      	<option>Inside</option>
+      	<option>Outside</option>
+      </select>
+      <br>
+      <label for="sendConfirm">Please send me a confirmation of my booking</label>
+      <input id="sendConfirm" v-model="sendConfirm" type="checkbox">
+      <br>
+         <label for="agreeCOVID">I agree to bring photo ID, a mask, and check in upon arrival</label>
+      <input id="agreeCOVID" v-model="agreeCOVID" type="checkbox">
+      <br>
+      <br>
+
+
+
+      <button type="button" v-on:click="submitBooking">Submit</button>
+      </form>
+
+</div>
+<!--State transition to fade in thank you message-->
+<transition name="fade">
+<div v-if="submitted">
+Thankyou for submitting your booking {{ name }} . We will confirm with you shortly.
+</transition>
+</div>
+</div>
+
+<script>
+//New vue app to handle the booking form. Set up variables for input form and method to handle submit button.
+var bookingFormapp = new Vue({
+    	el:".bookingForm",
+    	data:{
+    		submitted: false,
+    		name: '',
+    		phoneno: '',
+    		email: '',
+    		numPpl,
+    		location,
+    		sendConfirm: false,
+    		agreeCOVID: false,
+    	},
+    	methods: {
+          submitBooking: function() {
+          bookingFormapp.submitted=true;
+          }
+        }
+    })
+</script>
+
+ 
+  
+  
+  </body>
+</html>  
